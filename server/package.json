@@ -1,0 +1,17 @@
+{
+  "name": "contact-server",
+  "version": "1.0.0",
+  "main": "app.jks",
+  "author": "mike stittleburg",
+  "license": "MIT",
+  "scripts": {
+     "start": "node ./app.js"
+  },
+  "dependencies": {
+    "apollo-server-express": "^1.3.2",
+    "express": "^4.16.3",
+    "graphql": "^0.13.2",
+    "graphql-tools": "^2.23.1",
+    "moment": "^2.21.0"
+  }
+}
