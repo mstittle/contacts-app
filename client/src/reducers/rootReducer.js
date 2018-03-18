@@ -1,14 +1,10 @@
 
-
-
 const contacts = [
-    { id:1, firstName: 'Mike', lastName: 'Stittleburg'},
+    { id: 1, firstName: 'Mike', lastName: 'Stittleburg' },
 ];
 
-const store = createStore(rootReducer)
-
-export default function rootReducer( state = contacts, action) {
-    switch(action.type) {
+export default function rootReducer(state = contacts, action) {
+    switch (action.type) {
         case 'ADD_CONTACT':
             return [
                 ...state,
@@ -20,7 +16,7 @@ export default function rootReducer( state = contacts, action) {
             ];
         default:
             return state;
-            
+
     }
 }
 

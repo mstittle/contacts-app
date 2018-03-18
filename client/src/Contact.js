@@ -1,10 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-const Contact = ({firstName, lastName, email, phone) => {
+const Contact = ({firstName, lastName, email, phone}) => {
   return (
     <div>
       {firstName} {lastName}
+      <ul>
+        <li>{email}</li>
+        <li>{phone}</li>
+      </ul>
     </div>
   )
 }
