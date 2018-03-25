@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo'
+import { Query } from 'react-apollo'
 
 const CONTACT_QUERY = gql`
 query getContact($id: ID!) {
@@ -29,20 +28,26 @@ const ContactDetail = ({firstName, lastName, email, phone}) => {
 class Contact extends Component {
   render() {
     console.log(this);
-    if (this.props.data.loading) {
-      return <div>loading data</div>
-    }
-    const {firstName, lastName, email, phone} = this.props.data.contact;
+    const {firstName, lastName, email, phone} = this.props.contact;
     return <ContactDetail firstName={firstName} lastName={lastName} email={email} phone={phone} />
   }
 }
 
+const query = ({match}) => (
+  <Query query={CONTACT_QUERY} variables={{id: match.params.id}} >
+    {({ loading, error, data }) => {
+      if (loading) return "Loading...";
+      if (error) return `Error! ${error.message}`;
 
-export default graphql(CONTACT_QUERY, {
-  options: ({ match }) => ({
-     variables: { id: match.params.id || '1' } }),
-  //   variables: { id: '1' } }),
-//  props: ({data}) => ({
-//    data
-//  })
-})(Contact);
+      return <Contact {...data}/>
+    }
+    }
+  </Query>
+);
+
+export default query;
+
+
+
+
+

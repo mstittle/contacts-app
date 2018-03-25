@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo'
+import { Query  } from 'react-apollo'
 import { Link } from 'react-router-dom';
 import './ContactList.css';
 
@@ -12,8 +12,6 @@ query {
         id
         lastName
         firstName
-        email
-        phone
     }
 }`;
 
@@ -23,10 +21,7 @@ class ContactList extends Component {
   }
 
   render() {
-    if (this.props.data.loading) {
-      return <div>loading data</div>
-    }
-    const contacts = this.props.data.contacts || [];
+    const contacts = this.props.contacts || [];
 
     const list = contacts.map((contact, index)=> (
       <div key={index+1}>
@@ -43,4 +38,17 @@ class ContactList extends Component {
   }
 }
 
-export default graphql(CONTACTS_QUERY)(ContactList)
+const query = () => (
+  <Query query={CONTACTS_QUERY}>
+  {({ loading, error, data }) => {
+    if (loading) return "Loading...";
+    if (error) return `Error! ${error.message}`;
+
+    return (
+      <ContactList contacts={data.contacts} />
+    );
+  }}
+  </Query>
+);
+
+export default query;
