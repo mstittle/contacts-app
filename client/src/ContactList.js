@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo'
-import Contact from './Contact';
+import { Link } from 'react-router-dom';
 import './ContactList.css';
 
 const CONTACTS_QUERY = gql`
@@ -19,7 +19,7 @@ query {
 
 class ContactList extends Component {
   static propTypes = {
-    constants: PropTypes.array,
+    contacts: PropTypes.array,
   }
 
   render() {
@@ -29,7 +29,9 @@ class ContactList extends Component {
     const contacts = this.props.data.contacts || [];
 
     const list = contacts.map((contact, index)=> (
-      <Contact key={index} {...contact} />
+      <div key={index+1}>
+      <Link to={`/contact/${contact.id}`} >{contact.firstName}{contact.lastName}</Link>
+      </div>
     ))
 
     return (

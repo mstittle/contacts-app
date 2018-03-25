@@ -20,11 +20,14 @@ class DataSource {
     }
 
     getContact(id) {
-        return contacts.filter( c => c.id === 1)[0];
+      //  console.log(`id:${id}`);
+        let  c = contacts.filter( c => c.id == id)[0];
+        console.log(contacts);
+        return c;
     }
 
     getContactGroup(id) {
-        return contactGroups.find( cg => cg.id === id)
+        return contactGroups.find( cg => cg.id == id)
     }
 
     getMeetingAttendees(meeting) {
