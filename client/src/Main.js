@@ -5,7 +5,7 @@ import Contact from './Contact';
 import Home from './Home';
 
 const Main = () => (
-  <main>
+  <main className="flex" >
     <Switch>
       <Route exact path='/' component={Home}/>
       <Route path='/contacts' component={ContactList}/>

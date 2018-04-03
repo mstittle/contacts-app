@@ -1,0 +1,28 @@
+
+.NavBar {
+    display: flex;
+    padding: 0;
+    list-style: none;
+    background-color: mistyrose;
+    border-radius: .2em;
+    padding: .5em;
+}
+
+.NavBar > li {
+    margin-top: 0;
+}
+
+.NavBar > li + li {
+    margin-left: 1.5em
+}
+
+.NavBar > .nav-right {
+    margin-left: auto;
+}
+
+.NavBar > li > a {
+    display: block;
+    background-color: blue;
+    color: white;
+    padding: .5em 1em;
+}
