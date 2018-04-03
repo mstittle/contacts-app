@@ -22,3 +22,7 @@ body * + * {
   margin-top: 1.5em;
 }
 
+.tile {
+  padding: 1.5em;
+  background-color: #fff;
+}

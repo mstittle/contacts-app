@@ -2,7 +2,7 @@ import React from 'react';
 
 const Home = () => (
   <div>
-    <h1>Welcome to the Contacts application</h1>
+    <p>Welcome to the Contacts application</p>
   </div>
 )
 

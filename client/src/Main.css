@@ -1,0 +1,19 @@
+
+.Main {
+    display: flex;
+}
+
+.Main-column {
+    flex: 2;
+    background-color: azure;
+}
+
+.Main-sidebar {
+    flex: 1;
+    background-color: azure;
+}
+
+.Main > * + * {
+    margin-top: 0;
+    margin-left: 1.5em;
+}

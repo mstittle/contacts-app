@@ -31,7 +31,7 @@ class ContactList extends Component {
 
     return (
       <div className="Contact-list">
-        <h1>Contacts</h1>
+        <h2>Contacts</h2>
         {list}
       </div>
     )
