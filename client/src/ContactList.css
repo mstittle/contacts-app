@@ -5,6 +5,20 @@
 
 }
 
+.Contact-list-grid {
+    display: grid;
+    grid-template-columns: 10em 10em 10em;
+    grid-gap: 1em;
+    align-items: baseline;
+}
+
 ul {
     list-style-type: none;
+}
+
+.Contact-list-contact {
+    background-color: floralwhite;
+    width: 10em;
+    height: 10em;
+    border: 1px dashed green;
 }
