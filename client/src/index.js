@@ -19,7 +19,7 @@ const store = createStore(rootReducer);
 
 
 const consoleLink = new ApolloLink((operation, forward) => {
-  console.log(`X - starting request for ${operation.operationName}`);
+  console.log(`starting request for ${operation.operationName}`);
   var t0 = performance.now();
   return forward(operation).map((data) => {
     var t1 = performance.now();
@@ -28,7 +28,7 @@ const consoleLink = new ApolloLink((operation, forward) => {
   })
 })
 
-const timeoutLink = new ApolloLinkTimeout(10000); // 10 second timeout
+const timeoutLink = new ApolloLinkTimeout(10); // 10 second timeout
 
 
 class OperationCountLink extends ApolloLink {
@@ -38,13 +38,13 @@ class OperationCountLink extends ApolloLink {
   }
   request(operation, forward) {
     this.operations++
-    console.log(this.operations);
+    console.log(`${operation.operationName} - id:${operation.variables.id || ''} - count: ${this.operations}`);
     return forward(operation);
   }
 }
 
 const link = ApolloLink.from([
-  //timeoutLink,
+  timeoutLink,
   apolloLogger,
   new OperationCountLink(),
   consoleLink,
