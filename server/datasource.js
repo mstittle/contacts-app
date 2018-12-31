@@ -16,7 +16,7 @@ class DataSource {
     }
 
     getContacts() {
-        return new Promise( resolve => setTimeout( resolve, 1000, contacts))
+        return new Promise( resolve => setTimeout( resolve, 10000, contacts))
     }
 
     getContact(id) {
