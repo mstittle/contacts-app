@@ -41,8 +41,73 @@ class ContactList extends Component {
   }
 }
 
+export default class CommentList extends Component {
+  constructor(props) {
+    super(props);
+    this.handleTimeout = this.handleTimeout.bind(this);
+    this.state = {
+      timedOut: false
+    };
+  }
+
+
+  handleTimeout(timedOut, abortFn, timeVal) {
+    this.setState({
+      timedOut: timedOut ? true : false,
+      cancel: abortFn ? abortFn : () => {},
+      timeVal,
+    });
+  }
+
+  renderLoading() {
+    return (
+    <div>
+      Loading data...
+    </div>)
+  }
+
+  renderError(error) {
+    return (
+    <div>
+      {`${error.message}`}
+    </div>)
+  }
+
+  renderTimedout() {
+    return(
+      <div>
+        <label>Data is taking a long time to load: {this.state.timeVal}</label>
+        <button className="btn btn1" onClick={this.state.cancel} >Cancel</button>
+      </div>
+      );
+  }
+  render() {
+    return (
+      <Query query={CONTACTS_QUERY}
+      context={{ timeout: 300, retryCB: this.handleTimeout }} 
+      >
+      {({ loading, error, data }) => {
+        if (this.state.timedOut)  {
+          return this.renderTimedout()
+        }
+        if (loading) 
+          return this.renderLoading();
+        if (error) {
+          return this.renderError(error)
+        }
+        return (
+          <ContactList contacts={data.contacts} />
+        );
+      }}
+      </Query>
+    );
+  }
+}
+
 const query = () => (
-  <Query query={CONTACTS_QUERY}>
+  <Query query={CONTACTS_QUERY}
+  context={{ timeout: 30 }} 
+  >
   {({ loading, error, data }) => {
     if (loading) return "Loading...";
     if (error) return `Error! ${error.message}`;
@@ -54,4 +119,4 @@ const query = () => (
   </Query>
 );
 
-export default query;
+// export default query;

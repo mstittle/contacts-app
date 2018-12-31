@@ -1,18 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
-import { ApolloProvider } from 'react-apollo'
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { BrowserRouter } from 'react-router-dom'
 import apolloLogger from 'apollo-link-logger';
-import ApolloLinkTimeout from 'apollo-link-timeout';
-import rootReducer from './reducers'
-import './index.css';
+// import ApolloLinkTimeout from 'apollo-link-timeout';
+import ApolloLinkTimeout from './linktimeout';
+import React from 'react';
+import { ApolloProvider } from 'react-apollo';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { createStore } from 'redux';
 import App from './App';
+import './index.css';
+import rootReducer from './reducers';
 import registerServiceWorker from './registerServiceWorker';
 
 const store = createStore(rootReducer);
@@ -28,7 +29,7 @@ const consoleLink = new ApolloLink((operation, forward) => {
   })
 })
 
-const timeoutLink = new ApolloLinkTimeout(10); // 10 second timeout
+const timeoutLink = new ApolloLinkTimeout(100); // 10 second timeout
 
 
 class OperationCountLink extends ApolloLink {
