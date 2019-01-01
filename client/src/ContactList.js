@@ -66,10 +66,12 @@ export default class CommentList extends Component {
     </div>)
   }
 
-  renderError(error) {
+  renderError(error, refetch ) {
     return (
     <div>
       {`${error.message}`}
+      <label>Data is taking a long time to load: {this.state.timeVal}</label>
+        <button className="btn btn1" onClick={() => refetch()} >refetch</button>
     </div>)
   }
 
@@ -81,19 +83,20 @@ export default class CommentList extends Component {
       </div>
       );
   }
+
   render() {
     return (
       <Query query={CONTACTS_QUERY}
       context={{ timeout: 300, retryCB: this.handleTimeout }} 
       >
-      {({ loading, error, data }) => {
+      {({ loading, error, data, refetch }) => {
         if (this.state.timedOut)  {
-          return this.renderTimedout()
+          return this.renderTimedout(refetch )
         }
         if (loading) 
           return this.renderLoading();
         if (error) {
-          return this.renderError(error)
+          return this.renderError(error, refetch )
         }
         return (
           <ContactList contacts={data.contacts} />
@@ -108,7 +111,7 @@ const query = () => (
   <Query query={CONTACTS_QUERY}
   context={{ timeout: 30 }} 
   >
-  {({ loading, error, data }) => {
+  {({ loading, error, data, refetch }) => {
     if (loading) return "Loading...";
     if (error) return `Error! ${error.message}`;
 

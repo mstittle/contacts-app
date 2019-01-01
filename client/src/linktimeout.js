@@ -54,8 +54,7 @@ export default class TimeoutLink extends ApolloLink {
       // listen to chainObservable for result and pass to localObservable if received before timeout
       const subscription = chainObservable.subscribe(
         result => {
-          console.log('got data');
-          retryCB(false)
+          retryCB && retryCB(false);
           clearTimeout(timer);
           observer.next(result);
           observer.complete();
@@ -81,8 +80,6 @@ export default class TimeoutLink extends ApolloLink {
       const start = new Date();
       timer = setTimeout(() => {
         if ( retryCB) {
-          console.log('timed out')
-          
           retryCB(true, abortRequest, (new Date().getTime() - start.getTime()));
         }
         else
@@ -94,7 +91,7 @@ export default class TimeoutLink extends ApolloLink {
         console.log('end')
         clearTimeout(timer);
         subscription.unsubscribe();
-        retryCB(false);
+        retryCB && retryCB(false);
       };
     });
 
