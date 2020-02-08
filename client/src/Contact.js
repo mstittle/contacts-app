@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo'
+import { Query } from '@apollo/react-components';
+
 
 const CONTACT_QUERY = gql`
 query getContact($id: ID!) {

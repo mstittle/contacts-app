@@ -2,8 +2,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
-import { Query  } from 'react-apollo'
+import { Query } from '@apollo/react-components';
+
 import { Link } from 'react-router-dom';
+
 import './ContactList.css';
 
 const CONTACTS_QUERY = gql`

@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "react-router": "^4.2.0"
+  },
+  "devDependencies": {
+    "semver": "^6.1.1"
   }
 }

@@ -3,21 +3,28 @@ import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import apolloLogger from 'apollo-link-logger';
-// import ApolloLinkTimeout from 'apollo-link-timeout';
-import ApolloLinkTimeout from './linktimeout';
+import { onError } from "apollo-link-error";
 import React from 'react';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/react-hooks';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { createStore } from 'redux';
-import App from './App';
 import './index.css';
 import rootReducer from './reducers';
 import registerServiceWorker from './registerServiceWorker';
+import App from './App'
 
-const store = createStore(rootReducer);
 
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.map(({ message, locations, path }) =>
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+      ),
+    );
+
+  if (networkError) console.log(`[Network error]: ${networkError}`);
+});
 
 const consoleLink = new ApolloLink((operation, forward) => {
   console.log(`starting request for ${operation.operationName}`);
@@ -28,9 +35,6 @@ const consoleLink = new ApolloLink((operation, forward) => {
     return data;
   })
 })
-
-const timeoutLink = new ApolloLinkTimeout(100); // 10 second timeout
-
 
 class OperationCountLink extends ApolloLink {
   constructor() {
@@ -45,10 +49,11 @@ class OperationCountLink extends ApolloLink {
 }
 
 const link = ApolloLink.from([
-  timeoutLink,
   apolloLogger,
   new OperationCountLink(),
   consoleLink,
+  errorLink,
+
   new HttpLink({ uri: 'http://localhost:4000/graphql' })
 ]);
 
@@ -58,13 +63,12 @@ const client = new ApolloClient({
   });
 
 ReactDOM.render(
-    <BrowserRouter>
-      <Provider store={store}>
-        <ApolloProvider client={client}>
-          <App />
-        </ApolloProvider>
-      </Provider>
-    </BrowserRouter>,
+  <BrowserRouter>
+  <ApolloProvider client={client}>
+        <App />
+  </ApolloProvider>
+  </BrowserRouter>
+  ,
     document.getElementById('root'));
 
 registerServiceWorker();
